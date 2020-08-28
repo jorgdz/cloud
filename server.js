@@ -11,12 +11,14 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
 const { handler } = require('./src/exceptions')
 const cloud = require('./src/routes/cloud')
 const { NotFoundException } = require('./src/exceptions/exceptions')
 const PORT = process.env.PORT || 3000
 
 const app = express()
+app.use(fileUpload())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())

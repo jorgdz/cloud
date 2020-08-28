@@ -68,4 +68,36 @@ const createDir = function (dir) {
   })
 }
 
-module.exports = { getContents, getPathFolder, createDir }
+const uplaodFiles = async function (req) {
+  var elems = req.files.elems
+  const filePath = req.body.path
+
+  if (Array.isArray(elems)) {
+    var arrayElems = []
+    for (var i = 0; i < elems.length; i++) {
+      arrayElems.push(await upload(elems[i], filePath))
+    }
+    return Promise.resolve({ message: 'Se han agregado nuevos archivos.', storagePath: filePath, data: arrayElems })
+  } else {
+    const uploaded = await upload(elems, filePath)
+    return Promise.resolve({ message: 'Se ha subido un nuevo archivo.', storagePath: filePath, data: uploaded })
+  }
+}
+
+const upload = function (elem, destinyPath) {
+  return new Promise((resolve, reject) => {
+    const absolutePath = path.join(config.directory, destinyPath)
+
+    elem.mv(`${absolutePath}${elem.name}`, function (err) {
+      if (err) reject(new ConflictException('No se ha podido subir el archivo, por favor intente luego.'))
+
+      resolve({
+        name: elem.name,
+        size: elem.size,
+        mimetype: elem.mimetype
+      })
+    })
+  })
+}
+
+module.exports = { getContents, getPathFolder, createDir, uplaodFiles }
