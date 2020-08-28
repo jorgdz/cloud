@@ -1,0 +1,30 @@
+{
+  "name": "cloud",
+  "version": "1.0.0",
+  "description": "A simple cloud storage",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "nodemon node server.js",
+    "lint": "standard",
+    "test": "npm run lint | ava test/**-test.js"
+  },
+  "author": "Jorge Diaz Montoya <jdzm@outlook.es>",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^3.12.1",
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4",
+    "standard": "^14.3.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "file-extension": "^4.0.5",
+    "multer": "^1.4.2",
+    "node-input-validator": "^4.2.1"
+  }
+}
