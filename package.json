@@ -9,23 +9,35 @@
   "scripts": {
     "start": "nodemon node server.js",
     "lint": "standard",
-    "test": "npm run lint | ava test/**-test.js"
+    "test": "npm run lint | ava test/**-test.js",
+    "build": "gulp",
+    "watch": "gulp watch"
   },
   "author": "Jorge Diaz Montoya <jdzm@outlook.es>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.11.4",
     "ava": "^3.12.1",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.2",
     "dotenv": "^8.2.0",
+    "gulp": "^4.0.2",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^4.1.0",
     "nodemon": "^2.0.4",
-    "standard": "^14.3.4"
+    "standard": "^14.3.4",
+    "vinyl-source-stream": "^2.0.0"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
+    "empty-element": "^1.0.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.0",
     "file-extension": "^4.0.5",
-    "multer": "^1.4.2",
-    "node-input-validator": "^4.2.1"
+    "hbs": "^4.1.1",
+    "node-input-validator": "^4.2.1",
+    "page": "^1.11.6",
+    "title": "github:component/title"
   }
 }

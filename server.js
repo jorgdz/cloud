@@ -18,10 +18,16 @@ const { NotFoundException } = require('./src/exceptions/exceptions')
 const PORT = process.env.PORT || 3000
 
 const app = express()
+require('hbs')
 app.use(fileUpload())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cookieParser())
+
+app.set('views', path.join(__dirname, 'resources/views'))
+app.set('view engine', 'hbs')
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Cors
 app.use((req, res, next) => {
@@ -35,6 +41,15 @@ app.use((req, res, next) => {
 
 // Api endpoints
 app.use('/api', cloud)
+
+// Routes single page
+app.get('/cloud', function (req, res) {
+  res.render('index', { title: 'Cloud' })
+})
+
+app.get('/cloud/:dir', function (req, res) {
+  res.render('index', { title: `Cloud - ${req.params.dir}` })
+})
 
 // Not found endpoint
 app.use(function (req, res, next) {

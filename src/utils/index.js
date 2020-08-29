@@ -36,10 +36,12 @@ const getContents = function (relativePath) {
 
 const getPathFolder = function (reqQuery) {
   var pathFolder = '/'
-  if (reqQuery.dir && reqQuery.dir !== undefined) {
+  if (reqQuery.dir && reqQuery.dir !== undefined && reqQuery.dir !== null && reqQuery.dir !== '') {
     if (Array.isArray(reqQuery.dir)) {
       for (let i = 0; i < reqQuery.dir.length; i++) {
-        pathFolder += `${reqQuery.dir[i]}/`
+        if (reqQuery.dir[i] !== undefined && reqQuery.dir[i] !== null && reqQuery.dir[i] !== '') {
+          pathFolder += `${reqQuery.dir[i]}/`
+        }
       }
     } else {
       pathFolder += `${reqQuery.dir}/`
@@ -74,9 +76,11 @@ const uplaodFiles = async function (req) {
 
   if (Array.isArray(elems)) {
     var arrayElems = []
+
     for (var i = 0; i < elems.length; i++) {
       arrayElems.push(await upload(elems[i], filePath))
     }
+
     return Promise.resolve({ message: 'Se han agregado nuevos archivos.', storagePath: filePath, data: arrayElems })
   } else {
     const uploaded = await upload(elems, filePath)
