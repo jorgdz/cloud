@@ -4,7 +4,7 @@ const template = require('./template')
 const services = require('./services')
 const empty = require('empty-element')
 
-page('/cloud/:dir?', services, function (ctx, next) {
+page('/cloud/:dir(.*)?', services, function (ctx, next) {
   var titlePage = 'Cloud'
 
   if (ctx.params.dir) {

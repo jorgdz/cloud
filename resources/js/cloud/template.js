@@ -1,29 +1,28 @@
+const drawContent = require('../content')
+
 module.exports = function (data) {
-  var div = document.createElement('div')
-  var routeDir = document.createElement('span')
+  var panel = document.createElement('div')
+  panel.classList.add('panel', 'panel-info', 'listContent')
+
+  var routeDir = document.createElement('div')
+  routeDir.classList.add('panel-heading')
   routeDir.textContent = data.storagePath
 
-  var lista = document.createElement('ul')
+  var panelBody = document.createElement('div')
+  panelBody.classList.add('panel-body')
+
+  // Creando la lista de directorios y archivos
+  var lista = document.createElement('div')
+  lista.classList.add('row')
   var fg = document.createDocumentFragment()
 
   data.contents.forEach(content => {
-    var elem = document.createElement('li')
-
-    if (content.type === 'directory') {
-      var a = document.createElement('a')
-      a.textContent = content.name
-      a.href = `/cloud/${content.name}`
-
-      elem.appendChild(a)
-    } else {
-      elem.textContent = content.name
-    }
-
-    fg.appendChild(elem)
+    fg.appendChild(drawContent(content, data.storagePath))
   })
 
   lista.appendChild(fg)
-  div.appendChild(routeDir)
-  div.appendChild(lista)
-  return div
+  panelBody.appendChild(lista)
+  panel.appendChild(routeDir)
+  panel.appendChild(panelBody)
+  return panel
 }

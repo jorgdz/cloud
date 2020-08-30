@@ -1,24 +1,13 @@
+const Swal = require('sweetalert2')
 const apiFetch = require('../api-fetch')
+const cleanArray = require('../clean-array')
 
-function cleanArray (currentArray) {
-  var newArray = new Array()
-  for (var i = 0; i < currentArray.length; i++) {
-    if (currentArray[i]) {
-      newArray.push(currentArray[i])
-    }
-  }
-  return newArray
-}
-
-// Obtener directorio anterio del local storage del browser
-const getBeforeDir = function (dir = undefined) {
+const getEndPoint = function (dir = undefined) {
   var endpoint = '/api/cloud'
-  var strPath = localStorage.getItem('storagePath')
   var tmp = null
 
-  if (strPath !== null && strPath !== undefined) {
-
-    tmp = strPath.split('/')
+  if (dir !== null && dir !== undefined) {
+    tmp = dir.split('/')
     tmp = cleanArray(tmp)
 
     if (tmp.length > 0) {
@@ -32,36 +21,33 @@ const getBeforeDir = function (dir = undefined) {
     }
   }
 
-  if (dir !== undefined) {
-    var matches = endpoint.match(/dir=(\w+)/g)
-
-    if (matches !== null) {
-      endpoint += `&dir=${dir}`
-    } else {
-      endpoint += `?dir=${dir}`
-    }
-  }
-
   return endpoint
 }
 
 module.exports = async function getDirOrFile (ctx, next) {
   try {
     var dir = ctx.params.dir
-    var endpoint = getBeforeDir()
+    var endpoint = getEndPoint()
 
     if (dir !== undefined) {
-      endpoint = getBeforeDir(dir)
+      endpoint = getEndPoint(dir)
     }
 
     const data = await apiFetch(endpoint)
     ctx.contents = data
 
-    localStorage.removeItem('storagePath')
-    localStorage.setItem('storagePath', data.storagePath)
-
     next()
   } catch (error) {
     console.log(error)
+    Swal.fire({
+      icon: 'error',
+      title: `Error ${error.status}`,
+      text: error.response.error,
+      footer: '<span>Algo ha ocurrido.</span>'
+    }).then(result => {
+      if (result.value) {
+        window.history.back()
+      }
+    })
   }
 }

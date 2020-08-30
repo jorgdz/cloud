@@ -47,8 +47,8 @@ app.get('/cloud', function (req, res) {
   res.render('index', { title: 'Cloud' })
 })
 
-app.get('/cloud/:dir', function (req, res) {
-  res.render('index', { title: `Cloud - ${req.params.dir}` })
+app.get('/cloud*', function (req, res) {
+  res.render('index', { title: 'Cloud' })
 })
 
 // Not found endpoint
