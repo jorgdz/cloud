@@ -5,6 +5,7 @@ const router = express.Router()
 
 const utils = require('../utils')
 const { BadRequestException } = require('../exceptions/exceptions')
+const { validateFields } = require('../exceptions/lib')
 
 router.get('/cloud', async function (req, res, next) {
   try {
@@ -19,6 +20,14 @@ router.get('/cloud', async function (req, res, next) {
 router.post('/cloud', async function (req, res, next) {
   try {
     const { path, name } = req.body
+    const body = { path, name }
+
+    // Validate fields
+    await validateFields(body, {
+      name: 'required|alphaDash',
+      path: 'required'
+    })
+
     const created = await utils.createDir({ path, name })
     res.status(201).send({ message: 'Directorio creado.', data: created })
   } catch (error) {

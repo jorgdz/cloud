@@ -6,7 +6,23 @@ _Local cloud, me permite ver el contenido de un directorio local, y navegar a tr
 
 # Visualizando directorios
 ![Visualizando directorios][cap1]
+
+
+# Error al intentar acceder a un directorio que no existe
 ![Error dir no existe][cap2]
+
+
+# Creando un nuevo directorio
+![Crear carpeta][cap3]
+
+
+# Error al crear un directorio con un nombre que ya existe
+![Carpeta existente][cap4]
+
+
+# Directorio creado
+![Carpeta creada][cap5]
+
 
 ## Built with 🛠️
 
@@ -19,3 +35,6 @@ _Local cloud, me permite ver el contenido de un directorio local, y navegar a tr
 
 [cap1]: /docs/cap1.png "Visualizando directorios"
 [cap2]: /docs/cap2.png "Error dir no existe"
+[cap3]: /docs/cap3.png "Crear carpeta"
+[cap4]: /docs/cap4.png "Carpeta existente"
+[cap5]: /docs/cap5.png "Carpeta creada"

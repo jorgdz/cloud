@@ -13,5 +13,6 @@ page('/cloud/:dir(.*)?', services, function (ctx, next) {
 
   title(titlePage)
   var root = document.querySelector('#root')
+
   empty(root).appendChild(template(ctx.contents))
 })

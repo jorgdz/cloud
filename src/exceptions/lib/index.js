@@ -40,6 +40,6 @@ exports.validateFields = async (body, rules) => {
   const matched = await validator.check()
 
   if (!matched) {
-    throw new MethodArgumentNotValidException('Fields errors.', validator.errors)
+    throw new MethodArgumentNotValidException('Error en los campos', validator.errors)
   }
 }

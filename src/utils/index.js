@@ -1,6 +1,7 @@
 'use strict'
 
 const fs = require('fs')
+const rimraf = require('rimraf')
 const config = require('../../config')
 const { ConflictException } = require('../exceptions/exceptions')
 const path = require('path')
@@ -51,7 +52,7 @@ const getPathFolder = function (reqQuery) {
   return pathFolder
 }
 
-const createDir = function (dir) {
+const createDir = function (dir = {}) {
   return new Promise((resolve, reject) => {
     const absolutePath = path.join(config.directory, dir.path)
     const destinyPath = path.join(absolutePath, dir.name)
@@ -66,6 +67,19 @@ const createDir = function (dir) {
       }
 
       if (files) reject(new ConflictException(`Ya existe un directorio con el nombre ${dir.name}`))
+    })
+  })
+}
+
+const deleteDir = function (dir) {
+  return new Promise((resolve, reject) => {
+    const absolutePath = path.join(config.directory, dir.path)
+    const destinyPath = path.join(absolutePath, dir.name)
+
+    rimraf(destinyPath, function (err) {
+      if (err) reject(new ConflictException(`Ha ocurrido un error al intentar eliminar '${dir.name}', por favor intente luego.`))
+
+      resolve({ message: 'Elemento borrado.' })
     })
   })
 }
@@ -104,4 +118,4 @@ const upload = function (elem, destinyPath) {
   })
 }
 
-module.exports = { getContents, getPathFolder, createDir, uplaodFiles }
+module.exports = { getContents, getPathFolder, createDir, uplaodFiles, deleteDir }

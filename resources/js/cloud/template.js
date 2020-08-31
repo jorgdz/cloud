@@ -1,12 +1,13 @@
 const drawContent = require('../content')
+const createFolder = require('./create-folder')
 
 module.exports = function (data) {
   var panel = document.createElement('div')
   panel.classList.add('panel', 'panel-info', 'listContent')
 
-  var routeDir = document.createElement('div')
-  routeDir.classList.add('panel-heading')
-  routeDir.textContent = data.storagePath
+  var panelHeading = document.createElement('div')
+  panelHeading.classList.add('panel-heading')
+  panelHeading.appendChild(createFolder(data.storagePath))
 
   var panelBody = document.createElement('div')
   panelBody.classList.add('panel-body')
@@ -22,7 +23,7 @@ module.exports = function (data) {
 
   lista.appendChild(fg)
   panelBody.appendChild(lista)
-  panel.appendChild(routeDir)
+  panel.appendChild(panelHeading)
   panel.appendChild(panelBody)
   return panel
 }
