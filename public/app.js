@@ -7262,6 +7262,35 @@ const Swal = require('sweetalert2');
 
 var page = require('page');
 
+var cleanArray = require('../../clean-array');
+
+const helperRouteDir = function (arrayDir, indexDir) {
+  var route = '';
+  arrayDir.forEach((a, index) => {
+    if (index <= indexDir) {
+      route += `/${a}`;
+    }
+  });
+  return route;
+};
+
+const navigateDirectory = function (dir) {
+  var arrayDir = dir.split('/');
+  arrayDir = cleanArray(arrayDir);
+  var spanDir = document.createElement('span');
+  var fg = document.createDocumentFragment();
+
+  for (var j = 0; j < arrayDir.length; j++) {
+    var a = document.createElement('a');
+    a.href = `/cloud${helperRouteDir(arrayDir, j)}`;
+    a.innerHTML = `${arrayDir[j]}/`;
+    fg.appendChild(a);
+  }
+
+  spanDir.appendChild(fg);
+  return spanDir;
+};
+
 module.exports = function createFolder(directory) {
   var btnOpenModal = document.createElement('button');
   btnOpenModal.classList.add('btn', 'btn-primary');
@@ -7270,7 +7299,12 @@ module.exports = function createFolder(directory) {
   btnOpenModal.setAttribute('data-target', '#myModalFolder');
   var div = document.createElement('div');
   div.appendChild(btnOpenModal);
-  div.append(` : ${directory}`);
+  div.append(' : ');
+  var root = document.createElement('a');
+  root.href = '/cloud';
+  root.textContent = '/ ';
+  div.appendChild(root);
+  div.appendChild(navigateDirectory(directory));
   var modal = document.createElement('div');
   modal.classList.add('modal', 'fade');
   modal.id = 'myModalFolder';
@@ -7404,7 +7438,7 @@ module.exports = function createFolder(directory) {
   return div;
 };
 
-},{"../../api-fetch":7,"page":3,"sweetalert2":5}],10:[function(require,module,exports){
+},{"../../api-fetch":7,"../../clean-array":8,"page":3,"sweetalert2":5}],10:[function(require,module,exports){
 var page = require('page');
 
 var title = require('title');
