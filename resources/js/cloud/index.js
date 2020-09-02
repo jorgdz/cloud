@@ -15,10 +15,12 @@ page('/cloud/:dir(.*)?', services, function (ctx, next) {
   var root = document.querySelector('#root')
   empty(root).appendChild(template(ctx.contents))
 
+  // Deshabilitar click derecho en el main
   root.oncontextmenu = function (e) {
     return false
   }
 
+  // Ocultar el Context-Menu personalizado al hacer click en cualquier parte de la página
   document.onclick = function (event) {
     document.getElementById('my-menu1').classList.remove('show')
     document.getElementById('my-menu2').classList.remove('show')

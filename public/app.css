@@ -5795,3 +5795,18 @@ button.close {
 
 .dropdown {
   position: absolute; }
+
+#uploadFile .fileUpload {
+  position: relative;
+  overflow: hidden;
+  margin: 0px; }
+  #uploadFile .fileUpload input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0); }

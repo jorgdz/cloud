@@ -18176,7 +18176,7 @@ module.exports = function createFolder(directory) {
   div.append(' : ');
   var root = document.createElement('a');
   root.href = '/cloud';
-  root.textContent = 'Mi unidad ';
+  root.textContent = 'Disco principal ';
   div.appendChild(root);
   div.appendChild(navigateDirectory(directory));
   var modal = document.createElement('div');
@@ -18332,11 +18332,12 @@ page('/cloud/:dir(.*)?', services, function (ctx, next) {
 
   title(titlePage);
   var root = document.querySelector('#root');
-  empty(root).appendChild(template(ctx.contents));
+  empty(root).appendChild(template(ctx.contents)); // Deshabilitar click derecho en el main
 
   root.oncontextmenu = function (e) {
     return false;
-  };
+  }; // Ocultar el Context-Menu personalizado al hacer click en cualquier parte de la página
+
 
   document.onclick = function (event) {
     document.getElementById('my-menu1').classList.remove('show');
@@ -18383,6 +18384,10 @@ const drawContent = require('../content');
 
 const createFolder = require('./create-folder');
 
+const Swal = require('sweetalert2');
+
+const apiFetch = require('../api-fetch');
+
 module.exports = function (data) {
   var panel = document.createElement('div');
   panel.classList.add('panel', 'panel-info', 'listContent');
@@ -18395,25 +18400,60 @@ module.exports = function (data) {
 
   var lista = document.createElement('div');
   lista.classList.add('row');
-  var fg = document.createDocumentFragment(); // Draw content directory
-
-  data.contents.forEach(content => {
-    fg.appendChild(drawContent(content, data.storagePath));
-  });
+  var fg = document.createDocumentFragment();
 
   panelBody.oncontextmenu = function (e) {
     document.getElementById('my-menu1').classList.remove('show');
     document.getElementById('my-menu2').classList.add('show');
     document.getElementById('rmenu2').style.top = e.clientY + 'px';
-    document.getElementById('rmenu2').style.left = e.clientX + 'px';
+    document.getElementById('rmenu2').style.left = e.clientX + 'px'; // Subir archivos
 
-    document.querySelector('#uploadFile').onclick = function () {
-      console.log('Path:', data.storagePath);
+    var filesSystem = document.querySelector('#filesSystem');
+
+    document.querySelector('#uploadFile').onclick = function (e) {
+      filesSystem.addEventListener('change', function (event) {
+        event.stopPropagation();
+        var formData = new FormData();
+
+        for (var x = 0; x < filesSystem.files.length; x++) {
+          formData.append("elems", filesSystem.files[x]);
+        }
+
+        formData.append('path', data.storagePath);
+        apiFetch('/api/upload', {
+          method: 'POST',
+          body: formData
+        }).then(response => {
+          if (response) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Ok',
+              text: response.message,
+              footer: '<span>Listo !!</span>'
+            }).then(result => {
+              if (result) {
+                location.reload();
+              }
+            });
+          }
+        }).catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: `Error ${error.status}`,
+            text: error.response.error,
+            footer: '<span>Algo ha ocurrido.</span>'
+          });
+        });
+      }, false);
     };
 
     window.event.returnValue = false;
-  };
+  }; // Draw content directory
 
+
+  data.contents.forEach(content => {
+    fg.appendChild(drawContent(content, data.storagePath));
+  });
   lista.appendChild(fg);
   panelBody.appendChild(lista);
   panel.appendChild(panelHeading);
@@ -18421,7 +18461,7 @@ module.exports = function (data) {
   return panel;
 };
 
-},{"../content":14,"./create-folder":10}],14:[function(require,module,exports){
+},{"../api-fetch":8,"../content":14,"./create-folder":10,"sweetalert2":6}],14:[function(require,module,exports){
 var page = require('page');
 
 const Swal = require('sweetalert2');

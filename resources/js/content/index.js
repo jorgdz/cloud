@@ -26,6 +26,7 @@ module.exports = function drawContent (content, storagePath) {
       // Eliminar directorio
       document.querySelector('#deleteFolder').onclick = function () {
         const data = { path: storagePath, name: content.name }
+
         apiFetch('/api/cloud', {
           method: 'DELETE',
           body: JSON.stringify(data),

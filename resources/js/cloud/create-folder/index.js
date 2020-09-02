@@ -44,7 +44,7 @@ module.exports = function createFolder (directory) {
   div.append(' : ')
   var root = document.createElement('a')
   root.href = '/cloud'
-  root.textContent = 'Mi unidad '
+  root.textContent = 'Disco principal '
   div.appendChild(root)
   div.appendChild(navigateDirectory(directory))
 

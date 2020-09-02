@@ -24,7 +24,31 @@ _Local cloud, me permite ver el contenido de un directorio local, y navegar a tr
 ![Carpeta creada][cap5]
 
 
-## Built with 🛠️
+# Subiendo archivos
+![Subir archivos][cap6]
+![Seleccionando archivos][cap7]
+![Archivos subidos][cap8]
+
+# Instalando el cloud en tu PC local
+Luego de clonar el repositorio de https://github.com/jorgdz/cloud/, entrar a la carpeta cloud
+
+```bash
+cd cloud
+```
+
+Y si estás en windows crear un archivo .env en la raiz de _cloud_ y copiar el nombre de la variable de entorno que está en el __env.example__; __BASE_DIRECTORY__, esta variable debe tener la ruta absoluta del disco donde se guardará la información, si estás en linux puedes hacer lo mismo, o setearla como una variable de entorno.
+Finalmente ejecutar los comandos:
+
+```bash
+npm install
+```
+```bash
+npm start
+```
+
+Por defecto iniciará la aplicación en el puerto __3000__
+
+## Construido en 🛠️
 
 - [Nodejs](https://nodejs.org/en/) - Node JS
 - [JS](https://developer.mozilla.org/es/docs/Web/JavaScript) - Javascript.
@@ -38,3 +62,6 @@ _Local cloud, me permite ver el contenido de un directorio local, y navegar a tr
 [cap3]: /docs/cap3.png "Crear carpeta"
 [cap4]: /docs/cap4.png "Carpeta existente"
 [cap5]: /docs/cap5.png "Carpeta creada"
+[cap6]: /docs/cap6.png "Subir archivos"
+[cap7]: /docs/cap7.png "Seleccionando archivos"
+[cap8]: /docs/cap8.png "Archivos subidos"
