@@ -3,3 +3,12 @@
 .listContent {
   margin-top: 25px;
 }
+
+.show {
+  z-index:1000;
+  position: absolute;
+}
+
+.dropdown {
+  position: absolute;
+}

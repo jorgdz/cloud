@@ -35,6 +35,17 @@ router.post('/cloud', async function (req, res, next) {
   }
 })
 
+router.delete('/cloud', async function (req, res, next) {
+  try {
+    const { path, name } = req.body
+
+    const deleted = await utils.deleteDir({ path, name })
+    res.status(201).send({ message: 'Listo.', data: deleted })
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.post('/upload', async function (req, res, next) {
   try {
     if (!req.files || Object.keys(req.files).length === 0) {

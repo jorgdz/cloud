@@ -14,8 +14,23 @@
 
   <main id="root" class="container"></main>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"
-    integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+  <div class="dropdown" id="rmenu1">
+    <ul class="dropdown-menu" id="my-menu1" role="menu" aria-labelledby="menu1">
+      <li>
+        <a href="#" id="deleteFolder"><i class="fa fa-trash"></i> Borrar carpeta</a>
+        <a href="#" id="renameFolder"><i class="fa fa-folder"></i> Renombar</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dropdown" id="rmenu2">
+    <ul class="dropdown-menu" id="my-menu2" role="menu" aria-labelledby="menu1">
+      <li>
+        <a href="#" id="uploadFile"><i class="fa fa-upload"></i> Subir archivo</a>
+      </li>
+    </ul>
+  </div>
+
   <script type="application/javascript" src="/app.js"></script>
 </body>
 

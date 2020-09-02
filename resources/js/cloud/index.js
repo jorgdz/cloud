@@ -13,6 +13,14 @@ page('/cloud/:dir(.*)?', services, function (ctx, next) {
 
   title(titlePage)
   var root = document.querySelector('#root')
-
   empty(root).appendChild(template(ctx.contents))
+
+  root.oncontextmenu = function (e) {
+    return false
+  }
+
+  document.onclick = function (event) {
+    document.getElementById('my-menu1').classList.remove('show')
+    document.getElementById('my-menu2').classList.remove('show')
+  }
 })

@@ -43,6 +43,7 @@
     "express-fileupload": "^1.2.0",
     "file-extension": "^4.0.5",
     "hbs": "^4.1.1",
+    "jquery": "^3.5.1",
     "node-input-validator": "^4.2.1",
     "page": "^1.11.6",
     "rimraf": "^3.0.2",

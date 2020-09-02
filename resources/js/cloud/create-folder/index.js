@@ -23,7 +23,7 @@ const navigateDirectory = function (dir) {
   for (var j = 0; j < arrayDir.length; j++) {
     var a = document.createElement('a')
     a.href = `/cloud${helperRouteDir(arrayDir, j)}`
-    a.innerHTML = `${arrayDir[j]}/`
+    a.innerHTML = ` <i class="fa fa-angle-right"></i>  ${arrayDir[j]}`
     fg.appendChild(a)
   }
 
@@ -44,7 +44,7 @@ module.exports = function createFolder (directory) {
   div.append(' : ')
   var root = document.createElement('a')
   root.href = '/cloud'
-  root.textContent = '/ '
+  root.textContent = 'Mi unidad '
   div.appendChild(root)
   div.appendChild(navigateDirectory(directory))
 
