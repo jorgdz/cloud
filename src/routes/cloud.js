@@ -35,6 +35,30 @@ router.post('/cloud', async function (req, res, next) {
   }
 })
 
+router.put('/cloud', async function (req, res, next) {
+  try {
+    const { oldNameDir, newNameDir, path } = req.body
+    const body = { oldNameDir, newNameDir, path }
+
+    // Validate fields
+    await validateFields(body, {
+      oldNameDir: 'required|alphaDash',
+      newNameDir: 'required|alphaDash',
+      path: 'required'
+    })
+
+    const data = {
+      oldDir: `${path}${oldNameDir}`,
+      newDir: `${path}${newNameDir}`
+    }
+
+    const renamed = await utils.renameDir(data)
+    res.status(201).send(renamed)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.delete('/cloud', async function (req, res, next) {
   try {
     const { path, name } = req.body
@@ -54,6 +78,25 @@ router.post('/upload', async function (req, res, next) {
     const uploaded = await utils.uplaodFiles(req)
 
     res.status(201).send(uploaded)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/download', function (req, res, next) {
+  try {
+    const { path, name } = req.body
+    utils.downloadFile(res, { path, name })
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/file', async function (req, res, next) {
+  try {
+    const { path, name } = req.body
+    const deleted = await utils.deleteFile({ path, name })
+    res.status(201).send({ message: 'Listo.', data: deleted })
   } catch (error) {
     next(error)
   }

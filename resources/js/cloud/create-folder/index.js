@@ -1,6 +1,5 @@
-const apiFetch = require('../../api-fetch')
-const Swal = require('sweetalert2')
-var page = require('page')
+const { createDirectory } = require('../services')
+
 var cleanArray = require('../../clean-array')
 
 const helperRouteDir = function (arrayDir, indexDir) {
@@ -128,67 +127,12 @@ module.exports = function createFolder (directory) {
   btnFooterSend.textContent = 'Crear'
 
 
-
   // Create a new Folder
   btnFooterSend.addEventListener('click', function () {
     var data = { path: directory, name: inputNameFolder.value }
 
-    apiFetch('/api/cloud', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(created => {
-        if (created) {
-          $('#myModalFolder').modal('toggle')
-
-          Swal.fire({
-            icon: 'success',
-            title: 'Ok',
-            text: created.message,
-            footer: '<span>Listo !!</span>'
-          })
-            .then(result => {
-              if (result) {
-                page.redirect(`/cloud${created.data.path}`)
-              }
-            })
-        }
-      })
-      .catch(ups => {
-        if (ups.response && ups.response.error) {
-          var swal = {
-            icon: 'error',
-            title: `Error ${ups.status}`,
-            text: ups.response.error,
-            footer: '<span>Algo ha ocurrido.</span>'
-          }
-
-          if (ups.response.fields) {
-            var html = ''
-            if (ups.response.fields.name) {
-              html += `<p>${ups.response.fields.name.message}</p>`
-            }
-
-            if (ups.response.fields.path) {
-              html += `<p>${ups.response.fields.path.message}</p>`
-            }
-
-            swal = {
-              icon: 'error',
-              title: `Error ${ups.status}`,
-              html: html,
-              footer: `<span>${ups.response.error}</span>`
-            }
-          }
-
-          Swal.fire(swal)
-        }
-      })
+    createDirectory(data)
   })
-
 
 
   modalFooter.appendChild(btnFooterClose)

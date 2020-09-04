@@ -4,30 +4,25 @@
 
 _Local cloud, me permite ver el contenido de un directorio local, y navegar a través de ellos y visualizar su contenido. También es posible crear directorios en una ruta especificada por el cliente, por el momento no podemos tener varios directorios con el mismo nombre, y si intenta crear un directorio existente devolverá un error al cliente indicando que ya existe, sin embargo cuando se integre una base de datos, esta implementación de tener varios directorios con el mismo nombre se tomará en cuenta, simulando un storage cloud._
 
-# Visualizando directorios
-![Visualizando directorios][cap1]
+# Creando directorios
+![Crear directorio][cap1]
 
 
-# Error al intentar acceder a un directorio que no existe
-![Error dir no existe][cap2]
-
-
-# Creando un nuevo directorio
-![Crear carpeta][cap3]
-
-
-# Error al crear un directorio con un nombre que ya existe
-![Carpeta existente][cap4]
-
-
-# Directorio creado
-![Carpeta creada][cap5]
+# Borrar directorios
+![Borrar directorio][cap2]
 
 
 # Subiendo archivos
-![Subir archivos][cap6]
-![Seleccionando archivos][cap7]
-![Archivos subidos][cap8]
+![Subir archivos][cap3]
+
+
+# Descargar y borrar los archivos
+![Abrir_borrar archivos][cap4]
+
+
+# Renombrar un directorio existente
+![Renombrar directorio][cap5]
+
 
 # Instalando el cloud en tu PC local
 Luego de clonar el repositorio de https://github.com/jorgdz/cloud/, entrar a la carpeta cloud
@@ -57,11 +52,8 @@ Por defecto iniciará la aplicación en el puerto __3000__
 
 - **Jorge Diaz Montoya**
 
-[cap1]: /docs/cap1.png "Visualizando directorios"
-[cap2]: /docs/cap2.png "Error dir no existe"
-[cap3]: /docs/cap3.png "Crear carpeta"
-[cap4]: /docs/cap4.png "Carpeta existente"
-[cap5]: /docs/cap5.png "Carpeta creada"
-[cap6]: /docs/cap6.png "Subir archivos"
-[cap7]: /docs/cap7.png "Seleccionando archivos"
-[cap8]: /docs/cap8.png "Archivos subidos"
+[cap1]: /docs/cap1.gif "Crear directorio"
+[cap2]: /docs/cap2.gif "Borrar directorio"
+[cap3]: /docs/cap3.gif "Subir archivos"
+[cap4]: /docs/cap4.gif "Abrir_borrar archivos"
+[cap5]: /docs/cap5.gif "Renombrar directorio"

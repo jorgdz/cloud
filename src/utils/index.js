@@ -71,6 +71,19 @@ const createDir = function (dir = {}) {
   })
 }
 
+const renameDir = function (obj) {
+  return new Promise((resolve, reject) => {
+    const oldDirname = path.join(config.directory, obj.oldDir)
+    const newDirname = path.join(config.directory, obj.newDir)
+
+    fs.rename(oldDirname, newDirname, (err) => {
+      if (err) if (err) reject(new ConflictException('No se ha podido renombar el directorio, intente luego.'))
+
+      resolve({ message: 'Nombre de directorio modificado.' })
+    })
+  })
+}
+
 const deleteDir = function (dir) {
   return new Promise((resolve, reject) => {
     const absolutePath = path.join(config.directory, dir.path)
@@ -80,6 +93,25 @@ const deleteDir = function (dir) {
       if (err) reject(new ConflictException(`Ha ocurrido un error al intentar eliminar '${dir.name}', por favor intente luego.`))
 
       resolve({ message: 'Elemento borrado.' })
+    })
+  })
+}
+
+const downloadFile = function (res, obj) {
+  const absolutePath = path.join(config.directory, obj.path)
+  const fileRoute = path.join(absolutePath, obj.name)
+
+  res.download(fileRoute)
+}
+
+const deleteFile = function (obj) {
+  return new Promise((resolve, reject) => {
+    const absolutePath = path.join(config.directory, obj.path)
+    const fileRoute = path.join(absolutePath, obj.name)
+    fs.unlink(fileRoute, function (err) {
+      if (err) reject(new ConflictException(`Ha ocurrido un error al intentar eliminar el archivo '${obj.name}', por favor intente luego.`))
+
+      resolve({ message: 'Archivo eliminado.', path: obj.path })
     })
   })
 }
@@ -118,4 +150,4 @@ const upload = function (elem, destinyPath) {
   })
 }
 
-module.exports = { getContents, getPathFolder, createDir, uplaodFiles, deleteDir }
+module.exports = { getContents, getPathFolder, createDir, uplaodFiles, renameDir, deleteDir, downloadFile, deleteFile }

@@ -1,6 +1,5 @@
 var page = require('page')
-const Swal = require('sweetalert2')
-var apiFetch = require('../api-fetch')
+const { downloadFiles, deleteFile, deleteDirectory, renameDirectory } = require('../cloud/services')
 
 module.exports = function drawContent (content, storagePath) {
   var elem = document.createElement('div')
@@ -8,12 +7,14 @@ module.exports = function drawContent (content, storagePath) {
 
   if (content.type === 'directory') {
     var a = document.createElement('a')
-    a.innerHTML = `<i class="fa fa-folder"></i> ${content.name}`
+    a.innerHTML = `<i class="fa fa-folder"></i> ${content.name} <b>(${content.contents.length} ${(content.contents.length > 2 || content.contents.length === 0) ? 'elems' : 'elem'})</b>`
     a.id = 'directory'
     a.href = `/cloud${storagePath}${content.name}`
 
+    // Menu contextual de cada directorio
     a.oncontextmenu = function (e) {
       document.getElementById('my-menu2').classList.remove('show')
+      document.getElementById('my-menu3').classList.remove('show')
 
       document.querySelector('#panel-content').oncontextmenu = function (event) {
         return false
@@ -27,35 +28,14 @@ module.exports = function drawContent (content, storagePath) {
       document.querySelector('#deleteFolder').onclick = function () {
         const data = { path: storagePath, name: content.name }
 
-        apiFetch('/api/cloud', {
-          method: 'DELETE',
-          body: JSON.stringify(data),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-          .then(created => {
-            if (created) {
-              Swal.fire({
-                icon: 'success',
-                title: 'Ok',
-                text: created.data.message,
-                footer: '<span>Listo !!</span>'
-              })
-                .then(result => {
-                  if (result) {
-                    page.redirect(`/cloud${storagePath}`)
-                  }
-                })
-            }
-          }).catch(error => {
-            Swal.fire({
-              icon: 'error',
-              title: `Error ${error.status}`,
-              text: error.response.error,
-              footer: '<span>Algo ha ocurrido.</span>'
-            })
-          })
+        deleteDirectory(data)
+      }
+
+      // Renombar directorio
+      document.querySelector('#renameFolder').onclick = function () {
+        const data = { path: storagePath, oldNameDir: content.name }
+
+        renameDirectory(data)
       }
 
       window.event.returnValue = false
@@ -75,7 +55,43 @@ module.exports = function drawContent (content, storagePath) {
       iconClass = 'fa fa-music'
     }
 
-    elem.innerHTML = `<i class="${iconClass}"></i> ${content.name}`
+    var span = document.createElement('span')
+    span.innerHTML = `<i class="${iconClass}"></i> ${content.name}`
+    span.id = 'fileDirectory'
+    span.classList.add('fileStyleList')
+
+    // Menu contextual de cada archivo
+    span.oncontextmenu = function (e) {
+      document.getElementById('my-menu2').classList.remove('show')
+      document.getElementById('my-menu1').classList.remove('show')
+
+      document.querySelector('#panel-content').oncontextmenu = function (event) {
+        return false
+      }
+
+      document.getElementById('my-menu3').classList.add('show')
+      document.getElementById('rmenu3').style.top = e.clientY + 'px'
+      document.getElementById('rmenu3').style.left = e.clientX + 'px'
+
+      // Eliminar archivo
+      document.querySelector('#deleteFile').onclick = function () {
+        const data = { path: storagePath, name: content.name }
+
+        deleteFile(data)
+      }
+
+      // Descargar archivo
+      document.querySelector('#downloadFile').onclick = function () {
+        const data = { path: storagePath, name: content.name }
+
+        downloadFiles(data)
+      }
+
+      window.event.returnValue = false
+      page.redirect(`/cloud${storagePath}`)
+    }
+
+    elem.appendChild(span)
   }
 
   return elem
